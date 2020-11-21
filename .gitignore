@@ -3,3 +3,5 @@ accounts/__pycache__/*
 Accidents/migrations/__pycache__/*
 accounts/migrations/__pycache__/*
 RoadAccidents/__pycache__/
+
+venv/
