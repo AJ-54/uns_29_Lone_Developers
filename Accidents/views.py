@@ -2,27 +2,15 @@ from django.shortcuts import render
 from django.views import View
 from django.http import HttpResponse
 from django.contrib.gis.geoip2 import GeoIP2
-<<<<<<< HEAD
-=======
 from googleplaces import GooglePlaces, types, lang 
 import requests 
 import json 
 from .models import *
->>>>>>> 9a23c7b48946af22005ed40a25a0706d20002ebc
 from accounts.models import *
 from PredictAccident.predict import Classify
 from django.conf import settings
 
-<<<<<<< HEAD
 BaseUrl = "https://api.foursquare.com/v2/venues/search?ll=20.3667,72.9&categoryId=4bf58dd8d48988d196941735&client_id=T2FYJME0EU3WFFFFYHXHGLA55NN5MHT524NOY5CLZ53SQS51&client_secret=4RO0J4J4WCRTWUS1G5HIQVWP1ZFK0B1QAHERE0IRRLTF5V0Q&limit=5&v=20180628"
-
-=======
-
-BaseUrl = "https://api.foursquare.com/v2/venues/search?ll=20.3667,72.9&categoryId=4bf58dd8d48988d196941735&client_id=T2FYJME0EU3WFFFFYHXHGLA55NN5MHT524NOY5CLZ53SQS51&client_secret=4RO0J4J4WCRTWUS1G5HIQVWP1ZFK0B1QAHERE0IRRLTF5V0Q&limit=5&v=20180628"
-
-
->>>>>>> 9a23c7b48946af22005ed40a25a0706d20002ebc
-API_KEY = 'AIzaSyA9Y9cZLZChFBgo4tqLF5Xdpfc_2Og9MiM'
 
 
 # Create your views here.
@@ -45,13 +33,8 @@ def get_location(ip):
     g = GeoIP2()
     qwe = g.city(ip)
     return qwe
-<<<<<<< HEAD
 
 
-=======
-
-
->>>>>>> 9a23c7b48946af22005ed40a25a0706d20002ebc
 classifier = Classify()
 @method_decorator(csrf_exempt,name='dispatch')
 class AccidentReports(View):
@@ -80,19 +63,8 @@ class AccidentReports(View):
         #         genuine_images +=1
             
 
-<<<<<<< HEAD
         if classifier.predict_accident(path):
             print("hi")
-=======
-        if True or genuine_images == len(images) :
-            ip = visitor_ip_address(request)
-            print(ip)
-            print("hi")
-            data = get_location(ip)
-            print(data)
-            latitude = data['latitude']
-            longitude = data['longitude']
->>>>>>> 9a23c7b48946af22005ed40a25a0706d20002ebc
             city = data['city']
             region = data['region']
 
