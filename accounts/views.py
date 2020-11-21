@@ -15,53 +15,21 @@ from .decorators import user_check
 import json
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
-<<<<<<< HEAD
-
-
-
-
-
-
-
-
 
 #twilioclient
 client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
 
-
-
-
-
-
-
-
-
-@login_required
-=======
-
-#twilioclient
-client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
-
->>>>>>> 9a23c7b48946af22005ed40a25a0706d20002ebc
 def send_otp(request) :
 
     if "phone" not in request.POST.keys() :
         phone = request.user.profile.phone
     else :
         phone = request.POST["phone"]
-<<<<<<< HEAD
-    
-    if request.session.get('session_otps',True) :
-        request.session['session_otps'] = []
-    otp = pyotp.TOTP(pyotp.random_base32()).now()
- 
-=======
 
     if request.session.get('session_otps',True) :
         request.session['session_otps'] = []
     otp = pyotp.TOTP(pyotp.random_base32()).now()
     request.session['session_otps'] +=otp
->>>>>>> 9a23c7b48946af22005ed40a25a0706d20002ebc
     message = client.messages \
                 .create(
                      body="Your otp is "+otp,
@@ -215,11 +183,7 @@ class CompleteProfile(LoginRequiredMixin,View) :
              return render(requset,self.template_name)
 
 
-<<<<<<< HEAD
 complete_profile= CompleteProfile.as_view()
-=======
-complete_profile= Profile.as_view()
->>>>>>> 9a23c7b48946af22005ed40a25a0706d20002ebc
 
 
 
