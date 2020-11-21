@@ -3,6 +3,14 @@ from django.views import View
 from django.http import HttpResponse
 from .models import *
 from django.contrib.gis.geoip2 import GeoIP2
+from accounts.models import *
+from PredictAccident.predict import Classify
+from django.conf import settings
+
+BaseUrl = "https://api.foursquare.com/v2/venues/search?ll=20.3667,72.9&categoryId=4bf58dd8d48988d196941735&client_id=T2FYJME0EU3WFFFFYHXHGLA55NN5MHT524NOY5CLZ53SQS51&client_secret=4RO0J4J4WCRTWUS1G5HIQVWP1ZFK0B1QAHERE0IRRLTF5V0Q&limit=5&v=20180628"
+
+API_KEY = 'AIzaSyA9Y9cZLZChFBgo4tqLF5Xdpfc_2Og9MiM'
+
 
 # Create your views here.
 
@@ -23,35 +31,65 @@ def visitor_ip_address(request):
 def get_location(ip):
     g = GeoIP2()
     qwe = g.city(ip)
-    print(qwe)
+    return qwe
 
+
+classifier = Classify()
 @method_decorator(csrf_exempt,name='dispatch')
 class AccidentReports(View):
     
     def post(self,request):
 
         form_data = request.POST
-        form_files = None 
-        if request.FILES:
-            form_files=request.FILES
-            image = form_files.get('image')
-        number = form_data.get('number')
-        
+        form_files=request.FILES
+        image = form_files.get('image')
+        number = form_data.get('number') 
 
-        if(True):
-        
+        # Tracking User IP
+        ip = visitor_ip_address(request)
+        data = get_location(ip)
+        print(data)
+        latitude = data['latitude']
+        longitude = data['longitude']
+        print(ip)
+        accident = Accident.objects.create(latitude=latitude, longitude=longitude)
+        accident_image = Image.objects.create(image= image,accident = accident)
+        path = os.join(BASE_DIR,accident_image.image)
+        # for image in images :
+        #     accident_image = Image.objects.create(image= image,accident = accident)
+        #     path = settings.BASE_DIR +"/media/"+str(accident_image.image)
+        #     if(classifier.predict_accident(path)):
+        #         genuine_images +=1
+            
+
+        if classifier.predict_accident(path):
+            print("hi")
+            city = data['city']
+            region = data['region']
+
             if Vehicle.objects.filter(number=number).exists():
                 vehicle =  Vehicle.objects.get(number=number)
                 victim = vehicle.user
                 emergency_contacts = victim.profile.emergency_contacts.all()
-            ip = visitor_ip_address(request)
-            get_location(ip)
-            return HttpResponse("Done")
-            
-
+                return HttpResponse("Done")
+            else :
+                return HttpResponse("else")
         else:
             print('You are stupid!')
             return HttpResponse("Stupid")
 
         
 accident_reports = AccidentReports.as_view()
+
+def testing(request):
+    return render(request,'test/test.html')
+
+def Home(request):
+    return render(request,'home.html')
+
+
+
+
+  
+  
+

@@ -29,7 +29,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
-
+APPEND_SLASH=False
 # Application definition
 
 INSTALLED_APPS = [
@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_twilio',
     'Accidents',
-    'accounts'
+    'accounts',
+    'PredictAccident',
 ]
 
 MIDDLEWARE = [

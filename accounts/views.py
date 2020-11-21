@@ -191,7 +191,7 @@ class CompleteProfile(LoginRequiredMixin,View) :
              return render(requset,self.template_name)
 
 
-complete_profile= Profile.as_view()
+complete_profile= CompleteProfile.as_view()
 
 
 
