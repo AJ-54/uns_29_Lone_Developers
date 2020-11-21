@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_twilio',
     'Accidents',
-    'accounts'
+    'accounts',
+    'PredictAccident',
 ]
 
 MIDDLEWARE = [
