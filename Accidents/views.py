@@ -1,8 +1,11 @@
 from django.shortcuts import render
 from django.views import View
 from django.http import HttpResponse
-from .models import *
 from django.contrib.gis.geoip2 import GeoIP2
+
+from .models import *
+from PredictAccident.predict import Classify, predict_accident
+
 
 # Create your views here.
 
