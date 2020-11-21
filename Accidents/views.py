@@ -3,7 +3,10 @@ from django.views import View
 from django.http import HttpResponse
 from .models import *
 from django.contrib.gis.geoip2 import GeoIP2
-
+from googleplaces import GooglePlaces, types, lang 
+import requests 
+import json 
+API_KEY = 'AIzaSyA9Y9cZLZChFBgo4tqLF5Xdpfc_2Og9MiM'
 # Create your views here.
 
 from django.utils.decorators import method_decorator
@@ -23,6 +26,27 @@ def get_location(ip):
     g = GeoIP2()
     qwe = g.city(ip)
     print(qwe)
+    google_places = GooglePlaces(API_KEY)
+    query_result = google_places.nearby_search( 
+        # lat_lng ={'lat': 46.1667, 'lng': -1.15}, 
+        lat_lng ={'lat': 28.4089, 'lng': 77.3178}, 
+        radius = 5000, 
+        # types =[types.TYPE_HOSPITAL] or 
+        # [types.TYPE_CAFE] or [type.TYPE_BAR] 
+        # or [type.TYPE_CASINO]) 
+        types =[types.TYPE_HOSPITAL])
+    if query_result.has_attributions: 
+        print(query_result.html_attributions)
+
+    # Iterate over the search results 
+    for place in query_result.places: 
+        # print(type(place)) 
+        # place.get_details() 
+        print (place.name) 
+        print("Latitude", place.geo_location['lat']) 
+        print("Longitude", place.geo_location['lng']) 
+        print() 
+     
 
 @method_decorator(csrf_exempt,name='dispatch')
 class AccidentReports(View):
@@ -54,3 +78,13 @@ class AccidentReports(View):
 
         
 accident_reports = AccidentReports.as_view()
+
+def testing(request):
+    return render(request,'test/test.html')
+
+
+
+
+  
+  
+

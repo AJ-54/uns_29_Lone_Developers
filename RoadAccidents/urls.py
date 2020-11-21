@@ -17,11 +17,13 @@ from django.contrib import admin
 from django.urls import path,include
 from django.conf import settings
 from django.conf.urls.static import static
+from Accidents import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/',include('accounts.urls')),
-    path('accidents/',include('Accidents.urls'))
+    path('accidents/',include('Accidents.urls')),
+    path('test/',views.testing,name='testing')
 ]
 
 if settings.DEBUG :

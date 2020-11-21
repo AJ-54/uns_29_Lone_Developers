@@ -12,25 +12,35 @@ from django.conf import settings
 from twilio.rest import Client
 from django.views.decorators.csrf import csrf_exempt,ensure_csrf_cookie
 from django.utils.decorators import method_decorator
+from authy.api import AuthyApiClient
 #voice login
 # username, password = "daksh999168@gmail.com", "winnerwinner"
 # voice = Voice()
 # voice.login(username, password)
 
 #9991689861
+authy_api = AuthyApiClient(settings.SERVICE_SID)
 def send_otp(request) :
     if request.session.get('session_otps',True) :
             request.session['session_otps'] = []
     
-    otp = pyotp.TOTP(pyotp.random_base32()).now()
+    otp = pyotp.TOTP(pyotp.random_base32())
+    now()
     request.session['session_otps'] +=otp
-    message_to_broadcast = ("Have you played the incredible TwilioQuest "
-                                                "yet? Grab it here: https://www.twilio.com/quest")
-    client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
-    recepient = '+91 9991689861'
-    client.messages.create(to=recepient,
-                            from_=settings.TWILIO_NUMBER,
-                            body=message_to_broadcast)
+    # message_to_broadcast = ("Have you played the incredible TwilioQuest "
+    #                                             "yet? Grab it here: https://www.twilio.com/quest")
+    # client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
+    # recepient = '+91 9991689861'
+    # client.messages.create(to=recepient,
+    #                         from_=settings.TWILIO_NUMBER,
+    #                         body=message_to_broadcast)
+
+
+    authy_api.phones.verification_start(
+                "9991689861",
+                "+91",
+                via=form.cleaned_data['via']
+            )
     print("sent")
     
     return 0
