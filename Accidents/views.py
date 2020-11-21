@@ -1,12 +1,16 @@
 from django.shortcuts import render
 from django.views import View
 from django.http import HttpResponse
-from .models import *
 from django.contrib.gis.geoip2 import GeoIP2
 from googleplaces import GooglePlaces, types, lang 
 import requests 
 import json 
+from .models import *
+from PredictAccident.predict import Classify, predict_accident
+
 API_KEY = 'AIzaSyA9Y9cZLZChFBgo4tqLF5Xdpfc_2Og9MiM'
+
+
 # Create your views here.
 
 from django.utils.decorators import method_decorator
