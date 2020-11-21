@@ -10,6 +10,7 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt,ensure_csrf_cookie
 
 
+
 def visitor_ip_address(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
 
