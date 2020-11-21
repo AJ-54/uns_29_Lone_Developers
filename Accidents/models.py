@@ -26,10 +26,10 @@ class Hospital(models.Model):
 
 class Accident(models.Model):
     time = models.DateTimeField(auto_now_add=True)
-    vehicles = models.ManyToManyField(Vehicle, blank=True)
+    vehicles = models.ManyToManyField(Vehicle, blank=True,null=True)
     longitude = models.IntegerField(default=0)
     latitude = models.IntegerField(default=0)
-    hospital = models.ForeignKey(Hospital,related_name='accidents',on_delete=models.CASCADE)
+    hospital = models.ForeignKey(Hospital,related_name='accidents',on_delete=models.CASCADE,blank=True,null=True)
 
     def __str__(self) :
         return str(self.id)
@@ -39,7 +39,7 @@ def directory_path(instance, filename):
 
 class Image(models.Model):
     accident = models.ForeignKey(Accident,related_name='images',on_delete=models.CASCADE)
-    image = models.ImageField(upload_to= directory_path)
+    image = models.ImageField(upload_to='PredictAccident/images/')
 
 class Notification(models.Model):   
     accident = models.ForeignKey(Accident,related_name='notifications',on_delete=models.CASCADE)

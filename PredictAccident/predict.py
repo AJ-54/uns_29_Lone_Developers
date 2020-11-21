@@ -1,3 +1,7 @@
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+
 import datetime
 import time
 import cv2
@@ -5,10 +9,6 @@ import numpy as np
 import time
 import os
 from shutil import copyfile
-
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
 
 import argparse
 import sys
@@ -19,8 +19,8 @@ import tensorflow as tf
 import numpy as np
 
 class Classify():
-    def __init__(self,path):
-        self.path = path
+    def __init__(self):
+        self.name = "AccidentImageClassifier"
 
     def load_graph(self,model_file):
         graph = tf.Graph()
@@ -47,7 +47,7 @@ class Classify():
             image_reader = tf.image.decode_bmp(file_reader, name='bmp_reader')
         else:
             image_reader = tf.image.decode_jpeg(file_reader, channels = 3,name='jpeg_reader')
-        float_caster = tf.cast(image_reader, tf.float32)
+        float_caster = tf.cast(image_tfreader, tf.float32)
         dims_expander = tf.expand_dims(float_caster, 0)
         resized = tf.image.resize_bilinear(dims_expander, [input_height, input_width])
         normalized = tf.divide(tf.subtract(resized, [input_mean]), [input_std])
@@ -63,8 +63,8 @@ class Classify():
             label.append(l.rstrip())
         return label
 
-    def classify_image(self):
-        image_path = self.path
+    def classify_image(self,path):
+        image_path = path
         input_height = 224
         input_width = 224
         input_mean = 128
@@ -79,8 +79,8 @@ class Classify():
 
         input_name = "import/" + input_layer
         output_name = "import/" + output_layer
-        input_operation = graph.get_operation_by_name(input_name);
-        output_operation = graph.get_operation_by_name(output_name);
+        input_operation = graph.get_operation_by_name(input_name)
+        output_operation = graph.get_operation_by_name(output_name)
         with tf.Session(graph=graph) as sess:
             start = time.time()
             results = sess.run(output_operation.outputs[0],{input_operation.outputs[0]: t})
@@ -97,13 +97,12 @@ class Classify():
         return ans, classPred[ans]
 
 
-def predict_accident(self,path):
-    clf = Classify(path)
-    class_name, percentage = clf.classify_image()
-    if (class_name[0] is 'a' or class_name[0] is 'A'):
-        return 1
-    else:
-        return 0
+        def predict_accident(self,path):
+            class_name, percentage = self.classify_image(path)
+            if (class_name[0] is 'a' or class_name[0] is 'A'):
+                return 1
+            else:
+                return 0
 
 
 

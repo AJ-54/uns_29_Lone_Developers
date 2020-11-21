@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_twilio',
     'Accidents',
-    'accounts'
+    'accounts',
+    'PredictAccident',
 ]
 
 MIDDLEWARE = [
@@ -135,3 +136,4 @@ GEOIP_PATH = os.path.join(BASE_DIR, 'geoip')
 TWILIO_ACCOUNT_SID='AC089b1a1e12e51262f27393375f4bcbc1'
 TWILIO_AUTH_TOKEN='286199720825493f8ac4eaa6b6d52b9c'
 TWILIO_NUMBER = '+15672922482'
+SERVICE_SID = 'VAe70421b6e0b220a4c2d20fa6c3969cf7'
